@@ -6,9 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ dev ]
-  pull_request:
-    branches: [ dev ]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -42,7 +40,11 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/app3:dev
-
-      - name: Image digest
-        run: echo $(curl ipinfo.io/ip)
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/app3:main
+  
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      run: |
+        echo ${{ secrets.DOCKER_INSTANCE }} > secrets.pem
+        ssh -i secrets.pem admin@18.141.173.207 /home/admin/deploy.sh
