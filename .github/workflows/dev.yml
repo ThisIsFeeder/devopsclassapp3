@@ -53,4 +53,4 @@ jobs:
 
       - name: Deploy Service
         run: |
-          ssh admin@${{ secrets.SSH_HOST }} /home/admin/deploy.sh
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} /home/admin/deploy.sh
