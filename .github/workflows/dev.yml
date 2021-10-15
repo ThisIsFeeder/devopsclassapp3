@@ -48,6 +48,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }} 
           known_hosts: '18.141.173.207'
 
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
       - name: Deploy Service
         run: |
-          ssh admin@18.141.173.207 /home/admin/deploy.sh
+          ssh admin@${{ secrets.SSH_HOST }} /home/admin/deploy.sh
